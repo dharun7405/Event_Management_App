@@ -2,27 +2,28 @@ package main
 
 import (
 	"database/sql"
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
-	"github.com/golang-migrate/migrate/v4/source/file"
-	_ "github.com/lib/pq"
 	"log"
 	"os"
+
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/sqlite3"
+	"github.com/golang-migrate/migrate/v4/source/file"
 )
 
 func main() {
 	if len(os.Args) < 2 {
 		log.Fatal("Please provide a migration direction: 'up' or 'down'")
 	}
+
 	direction := os.Args[1]
-	connStr := "postgres://postgres:marvel74@localhost:5432/Student?sslmode=disable"
-	db, err := sql.Open("postgres", connStr)
+
+	db, err := sql.Open("sqlite3", "./data.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	instance, err := postgres.WithInstance(db, &postgres.Config{})
+	instance, err := sqlite3.WithInstance(db, &sqlite3.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,7 +33,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	m, err := migrate.NewWithInstance("file", fSrc, "postgres", instance)
+	m, err := migrate.NewWithInstance("file", fSrc, "sqlite3", instance)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,6 +48,6 @@ func main() {
 			log.Fatal(err)
 		}
 	default:
-		log.Fatal("Invalid direction. Use 'up' or 'down'")
+		log.Fatal("Invalid direction. Use 'up' or 'down'.")
 	}
 }
