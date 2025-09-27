@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/sqlite3"
-	"github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/golang-migrate/migrate"
+	"github.com/golang-migrate/migrate/database/sqlite3"
+	"github.com/golang-migrate/migrate/source/file"
 )
 
 func main() {
@@ -16,11 +16,11 @@ func main() {
 	}
 
 	direction := os.Args[1]
-
 	db, err := sql.Open("sqlite3", "./data.db")
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer db.Close()
 
 	instance, err := sqlite3.WithInstance(db, &sqlite3.Config{})
@@ -48,6 +48,6 @@ func main() {
 			log.Fatal(err)
 		}
 	default:
-		log.Fatal("Invalid direction. Use 'up' or 'down'.")
+		log.Fatal("Invalid direction. Use 'up' or 'down'")
 	}
 }
