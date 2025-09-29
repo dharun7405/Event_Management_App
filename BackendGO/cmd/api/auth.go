@@ -22,7 +22,8 @@ type loginRequest struct {
 }
 
 type loginResponse struct {
-	Token string `json:"token"`
+	Token  string `json:"token"`
+	UserId int    `json:"userId"`
 }
 
 // RegisterUser registers a new user
