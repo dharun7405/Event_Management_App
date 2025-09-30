@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"time"
 )
 
@@ -52,4 +53,33 @@ func (m *UserModel) Get(id int) (*User, error) {
 func (m *UserModel) GetByEmail(email string) (*User, error) {
 	query := `SELECT * FROM users WHERE email = $1`
 	return m.getUser(query, email)
+}
+
+func (m *UserModel) GetAll() ([]*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `SELECT name FROM users`
+	rows, err := m.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("get all users: %w", err)
+	}
+	defer rows.Close()
+
+	var users []*User
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.Name)
+		if err != nil {
+			return nil, fmt.Errorf("scan user: %w", err)
+		}
+		users = append(users, &user)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("row iteration: %w", err)
+	}
+
+	return users, nil
 }
