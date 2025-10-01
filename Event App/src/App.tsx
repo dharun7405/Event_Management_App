@@ -5,12 +5,14 @@ import { MyEventsPage } from "./pages/MyEventsPage"
 import { LoginPage } from "./pages/LoginPage"
 import { RegisterPage } from "./pages/RegisterPage"
 import { EditEventPage } from "./pages/EditEventPage"
+import { Header } from "./components/header/Header"
 
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Router>
+        <Header/>
         <main className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<EventsPage />} />
