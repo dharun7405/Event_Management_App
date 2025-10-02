@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const login = (userData: AuthUser) => {
         setAuth(userData);
-        localStorage.setItem("auth", JSON.stringify("auth"));
+        localStorage.setItem("auth", JSON.stringify(userData));
     };
 
     const logout = () => {
