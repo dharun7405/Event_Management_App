@@ -1,5 +1,6 @@
 import { CalculatorIcon, MapPinIcon } from "lucide-react";
 import type { EventData } from "../../types";
+import{formatDate}from "../../utils/dateUtils";
 
 interface EventCardProps {
     event: EventData;
@@ -19,7 +20,7 @@ export function EventCard({ event, onClick }: EventCardProps) {
 
                 <div className="mb-2 flex items-center text-sm text-gray-500">
                     <CalculatorIcon className="mr-2 h-4 w-4" />
-                    {/* <p>{formatDate(event.date)}</p> */}
+                    <p>{formatDate(event.date)}</p>
                 </div>
 
                 <div className="flex items-center text-sm text-gray-500">
